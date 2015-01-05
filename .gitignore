@@ -3,6 +3,9 @@
 jnthn/lib/*
 jnthn/bin/*
 
+#vim
+
+*.swp
 # general
 
 # Compiled Object files
