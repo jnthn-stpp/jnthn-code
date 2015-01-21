@@ -5,7 +5,7 @@ jnthn/bin/*
 
 #vim
 
-*.swp
+.*.sw*
 # general
 
 # Compiled Object files
