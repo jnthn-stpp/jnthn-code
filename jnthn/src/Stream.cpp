@@ -2,84 +2,111 @@
 
 using namespace jnthn::stream;
 
-template<typename num>
-Stream<num>::Stream(Promise<num> * p){
-	first = p;
+//Stream//////////////////////////////////////
+Stream::Stream(Promise * p){
+	if( p != 0){
+		first = p->copy();
+	} 
 }
-template<typename num>
-num Stream<num>::operator[](const int index){
-
-	Promise<num> * current = first;
+num Stream::operator[](const int index){
+	Promise * current = first;
 	for(int i = 0; i < index; i++){
 		current = current->getNext();
+		current->getData();
 	}
-	return current->getData();
+	num value = current->getData();
+	return value;
 }
 
-template<typename num>
-FunPromise<num>::FunPromise(FunPromise<num>::function fun, num domain, num delta){
+Stream& Stream::operator++(){
+	Promise * old = first;
+	old = first;
+	first = (first->getNext())->copy();
+	delete old;
+	return *(this);
+}
+
+Stream::~Stream(){
+	delete first;
+}
+
+//Promise//////////////////////////////////]
+
+Promise::~Promise(){
+	if(generated){
+		delete nxt;
+	}
+}
+
+//FunPromise/////////////////////////////////
+FunPromise::FunPromise(function fun, num domain, num delta){
 	this->fun = fun;
 	this-> domain = domain;
 	this-> delta = delta;
+	collected = false;
+	generated = false;
+	id = 54;
 }
 
-template<typename num>
-num FunPromise<num>::getData(){
-	if(!this->collected){
-		this->collected = true;
-		this->range = this->fun(this->domain);
+num FunPromise::getData(){
+	if(!collected){
+		collected = true;
+		range = fun(domain);
 	}
-	return this->range;
+	return range;
 }
 
-template<typename num>
-Promise<num>* FunPromise<num>::getNext(){
-	if(!this->generated){
-		this->generated = true;
-		this->nxt = new FunPromise(this->fun, (this->domain + delta), delta);
+Promise* FunPromise::getNext(){
+	if(!generated){
+		generated = true;
+		nxt = new FunPromise(fun, (domain + delta), delta);
 	}
-	return this->nxt;
+	return nxt;
 }
 
-template<typename num>
-FilPromise<num>::FilPromise(Promise<num> * data, FilPromise<num>::function filter){
+Promise * FunPromise::copy(){
+	return new FunPromise(fun, domain, delta);
+}
 
-	this->data = data;
+//FilPromise////////////////////////////////////////
+FilPromise::FilPromise(Promise * data, FilPromise::function filter){
+
+	this->data = data->copy();
 	this->filter = filter;
+	generated = false;
+	collected = false;
 }
 
-template<typename num>
-num FilPromise<num>::getData(){
-	if(!this->collected){
-		while(!(filter(this->data->getData()))){
-			this->data = this->data->getNext();
+num FilPromise::getData(){
+	if(!collected){
+		while(!(filter(data->getData()))){
+			data = data->getNext();
 		}
-		this->collected = true;
-		this->range = this->data->getData();
+		collected = true;
+		range = data->getData();
 	}
-	return this->range;
+	return range;
 }
 
-template<typename num>
-Promise<num> * FilPromise<num>::getNext(){
-	if(!this->collected){
+Promise * FilPromise::getNext(){
+	if(!collected){
 		getData();
 	}
-	if(!this->generated){
-		this->nxt = new FilPromise(data->getNext(), filter);
-		this->generated = true;
+	if(!generated){
+		nxt = new FilPromise(data->getNext(), filter);
+		generated = true;
 	}
-	return this->nxt;
+	return nxt;
 }
 
-// types:
+Promise * FilPromise::copy(){
+	Promise * ndata = data->copy();
+	return new FilPromise(ndata, filter);
+}
 
-template class Stream<int>;
-template class FunPromise<int>;
-template class FilPromise<int>;
-template class Stream<long>;
-template class FunPromise<long>;
-template class FilPromise<long>;
-template class Stream<double>;
-template class FunPromise<double>;
-template class FilPromise<double>;
+FilPromise::~FilPromise(){
+	if(generated){
+		delete nxt;
+	}
+		delete data;
+}

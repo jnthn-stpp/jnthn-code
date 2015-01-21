@@ -1,10 +1,8 @@
-all: StreamTest
+cflags ?= -g
 
-StreamTest: StreamTest.o ../bin/Stream.o ../include/Stream.h
-	g++ -o StreamTest ../bin/Stream.o  StreamTest.o -lgtest -lpthread 
-StreamTest.o: StreamTest.cpp
-	g++ -c StreamTest.cpp 
+all: StreamTest.exe
 
+StreamTest.exe: StreamTest.cpp ../bin/Stream.o ../include/Stream.h
+	g++ -o StreamTest.exe StreamTest.cpp ../bin/Stream.o  -lgtest -lpthread $(cflags)
 clean: 
-	-rm StreamTest
-	-rm StreamTest.o
+	-rm StreamTest.exe

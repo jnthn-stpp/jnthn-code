@@ -3,52 +3,51 @@
 namespace jnthn{
 namespace stream{
 
-template<typename num>
 class Stream;
-template<typename num>
 class Promise;
-template<typename num>
 class NumPromise;
-template<typename num>
 class FunPromise;
-template<typename num>
 class FilPromise;
 
-template<typename num>
+typedef long num;
+
 class Stream{
 
-	Promise<num> * first;
+	Promise * first;
 
 	public:
-	Stream(Promise<num> * p);
+	Stream(Promise * p);
 	num operator[](const int index);
-	Stream& operator++(){ 
-
-		first = first->getNext();
-		return *this;	
-	};
+	Stream& operator++();
+	~Stream();
 
 };
 
-template<typename num>
 class Promise {
 	
+	friend class Stream;
+
 	protected:
+
 	bool collected;
 	bool generated;
 	num range;
-	Promise<num> * nxt;
+	Promise * nxt;
+
 	public:
-	virtual Promise<num> * getNext() = 0;
+	
+	virtual Promise * getNext() = 0;
 	virtual num getData() = 0;
+	virtual Promise * copy() = 0;
+	~Promise();
 };
 
-template<typename num>
-class NumPromise : public Promise<num> {
+class NumPromise : public Promise {
 	public:
 	typedef num (*function)(num domain); 	
 	virtual num getData() = 0;
-	virtual Promise <num> * getNext() = 0;
+	virtual Promise  * getNext() = 0;
+	virtual Promise * copy() = 0;
 	
 	protected:
 	num domain;
@@ -56,28 +55,29 @@ class NumPromise : public Promise<num> {
 
 };
 
-template<typename num>
-class FunPromise : public NumPromise<num> {
+class FunPromise : public NumPromise {
 	protected:
 	num delta;
+	int id;
+
 	public:
-	typedef num (*function)(num domain); 	
-	FunPromise(FunPromise::function fun, num domain, num delta=1);
+	FunPromise(function fun, num domain, num delta=1);
 	virtual num getData();
-	virtual Promise<num>* getNext();
+	virtual Promise* getNext();
+	virtual Promise * copy();
 };
 
-template<typename num>
-class FilPromise : public Promise<num> {
+class FilPromise : public Promise {
 	public:
 	typedef bool (*function)(num value);
-	FilPromise(Promise<num>* data, FilPromise<num>::function filter);
+	FilPromise(Promise* data, FilPromise::function filter);
 	virtual num getData();
-	virtual Promise<num>* getNext();
-
+	virtual Promise* getNext();
+	virtual Promise * copy();
+	~FilPromise();
 	protected:
 	function filter;
-	Promise<num>* data;
+	Promise* data;
 };
 
 }
