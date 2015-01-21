@@ -1,6 +1,6 @@
-all : euler-p jnthn-p
+all : jnthn-p euler-p
 
-euler-p : jnthn
+euler-p : jnthn-p
 	cd euler; make
 
 jnthn-p :
