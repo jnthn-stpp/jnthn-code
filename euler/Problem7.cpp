@@ -3,13 +3,13 @@
 
 using namespace jnthn::stream;
 
-int primes[10001];
+long primes[10001];
 
-int all(int x){
+long all(long x){
 	return x;
 }
 
-bool seive(int x){
+bool seive(long x){
 	int i = 0;
 	while(primes[i] != 0){
 		if(x % primes[i] == 0){
@@ -22,9 +22,9 @@ bool seive(int x){
 	return true;
 }
 
-FunPromise<int> data = FunPromise<int>(&all, 2);
-FilPromise<int> promise = FilPromise<int>(&data, &seive);
-Stream<int> stream = Stream<int>(&promise);
+FunPromise data = FunPromise(&all, 2);
+FilPromise promise = FilPromise(&data, &seive);
+Stream stream = Stream(&promise);
 
 int main(){
 	std::cout << "Answer: " << stream[10000] << std::endl;

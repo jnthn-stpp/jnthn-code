@@ -6,15 +6,15 @@ using namespace jnthn::stream;
 
 const int limit = 998001; // 999 * 999 
 
-int all(int x){
+long all(long x){
 	return x;
 }
 
-bool isPali(int x);
+bool isPali(long x);
 
-FunPromise<int> nums = FunPromise<int>(&all, 10000);
-FilPromise<int> promise = FilPromise<int>(&nums, &isPali);
-Stream<int> stream = Stream<int>(&promise);
+FunPromise nums = FunPromise(&all, 10000);
+FilPromise promise = FilPromise(&nums, &isPali);
+Stream stream = Stream(&promise);
 
 int main(){
 	int numPali = 0;
@@ -41,7 +41,7 @@ int main(){
 	std::cout << "Answer: " << answer << " (" << a <<" * " << b << ")" << std::endl;
 }
 
-bool isPali(int x){
+bool isPali(long x){
 	int size = std::log10(x);
 	int xcopy = x;
 	int digits[size + 1];
