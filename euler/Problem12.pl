@@ -22,16 +22,21 @@ for($i = 1; $i <= sqrt($num); $i++){
 $tri = 1;
 $nxt = 1;
 @facts = (1);
+$length = 1;
 
-while(scalar(@facts) < 500){
-    print("Tri: $tri, Length: scalar(@facts)");
+while($length < 500){
+   #print("Tri: $tri, Length: $length \n");
     $nxt += 1;
     $tri += $nxt;
 
-    @facts = factors($nxt);
-
-    $nxt += 1;
-
+    @facts = factors($tri);
+    $length = @facts;
 }
 
 print("Answer $tri\n");
+
+foreach $i (@facts){
+    print("$i, ");
+
+}
+print("\nLength: $length \n");
