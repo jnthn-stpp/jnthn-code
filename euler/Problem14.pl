@@ -5,21 +5,31 @@ use warnings;
 my %lengths = (1 => 1);
 sub collatz{
 
-    my $arg = @_;
-    print("$arg = arg \n");
+    my ($arg) = @_;
+    #print("$arg = arg \n");
 
     if(exists($lengths{$arg})){
-	print("$arg exists!");
+	#print("$arg exists!");
 	return $lengths{$arg};
 
-    }elsif($ $arg % 2 == 0){
-	return 1 + collatz($arg / 2);
+    }elsif(($arg % 2) == 0){
+	my $temp = 1 + collatz($arg / 2);
+	$lengths{$arg} = $temp;
+	return $temp;
     } else {
-	return 1 + collatz(3 * $arg + 1);
+	my $temp = 1 + collatz(3 * $arg + 1);
+	$lengths{$arg} = $temp;
+	return $temp;
     }
 
 }
 
-my $ans = collatz(13);
+my $ans = 1;
 
-print("Answer = $ans \n");
+for(my $i = 2; $i <= 1000000; $i++){
+
+    my $temp = collatz($i);
+    if($temp > $ans){
+	$ans = $temp;
+    }
+}
