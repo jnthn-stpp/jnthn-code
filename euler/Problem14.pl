@@ -1,6 +1,7 @@
 #! /bin/perl -w
 use strict;
 use warnings;
+no warnings 'recursion';
 
 my %lengths = (1 => 1);
 sub collatz{
@@ -25,11 +26,15 @@ sub collatz{
 }
 
 my $ans = 1;
+my $length = 1;
 
 for(my $i = 2; $i <= 1000000; $i++){
-
+    #print "$i \n";
     my $temp = collatz($i);
-    if($temp > $ans){
-	$ans = $temp;
+    if($temp > $length){
+	$ans = $i;
+	$length = $temp;
     }
 }
+
+print "Answer: $ans \n"
