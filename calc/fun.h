@@ -1,14 +1,12 @@
 #ifndef FUN_H
 #define FUN_H
 
-#include "token.h"
+//#include "token.h"
 #include <map>
 #include <string>
 
 namespace jnthn{
 namespace calc{
-
-
 
 	num jmul(num* args){
 		return args[0] * args[1];

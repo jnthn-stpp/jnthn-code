@@ -11,7 +11,7 @@
 namespace jnthn{
 namespace calc{
 
-num curAns;
+void setAns(num ans);
 
 std::vector<token*> parseLine(std::string line);
 

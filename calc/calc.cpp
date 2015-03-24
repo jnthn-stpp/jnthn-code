@@ -1,12 +1,18 @@
 #include "calc.h"
+#include "token.h"
 #include "fun.h"
 #include <cstring>
 
-
 using namespace jnthn::calc;
+
+num curAns = 0;
 
 num ans(num * args){
   return curAns;
+}
+
+void jnthn::calc::setAns(num ans){
+  curAns = ans;
 }
 
 int ansArgs[1] = {0};

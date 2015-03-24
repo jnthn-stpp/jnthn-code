@@ -41,7 +41,7 @@ int main(){
 			jnthn::calc::simplify(i, stream);
 		}
 
-		jnthn::calc::curAns = stream[0]->value;
+		jnthn::calc::setAns(stream[0]->value);
 
 		std::cout << std::endl << "===> " << stream[0]->value <<std::endl;
 
