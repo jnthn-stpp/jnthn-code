@@ -5,12 +5,19 @@
 
 using namespace jnthn::calc;
 
+num ans(num * args){
+  return curAns;
+}
+
+int ansArgs[1] = {0};
+
 std::map<std::string, token *> funLookupTable;
-token powtok = token(3, ariArgs, 2, *jpow);	
-token multok = token(2, ariArgs, 2, *jmul);	
-token divtok = token(2, ariArgs, 2, *jdiv);	
-token addtok = token(1, ariArgs, 2, *jadd);	
-token subtok = token(1, ariArgs, 2, *jsub);	
+token powtok = token(6, ariArgs, 2, *jpow);	
+token multok = token(4, ariArgs, 2, *jmul);	
+token divtok = token(4, ariArgs, 2, *jdiv);	
+token addtok = token(2, ariArgs, 2, *jadd);	
+token subtok = token(2, ariArgs, 2, *jsub);
+token anstok = token(0, ansArgs, 0, *ans);
 
 void jnthn::calc::setupDefFuns(){
 
@@ -19,6 +26,7 @@ void jnthn::calc::setupDefFuns(){
 	funLookupTable.insert(std::pair<std::string, token*>("/" ,&divtok));
 	funLookupTable.insert(std::pair<std::string, token*>("+" ,&addtok));
 	funLookupTable.insert(std::pair<std::string, token*>("-" ,&subtok));
+	funLookupTable.insert(std::pair<std::string, token*>("ans", &anstok));
 }
 
 std::vector<token*> jnthn::calc::parseLine(std::string line){

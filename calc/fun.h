@@ -9,6 +9,7 @@ namespace jnthn{
 namespace calc{
 
 
+
 	num jmul(num* args){
 		return args[0] * args[1];
 	}
@@ -28,7 +29,7 @@ namespace calc{
 		}
 		return total;
 	}
-
+	
 	int ariArgs[2] = {-1, 1};
 }
 }

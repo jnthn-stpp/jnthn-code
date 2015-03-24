@@ -11,6 +11,8 @@
 namespace jnthn{
 namespace calc{
 
+num curAns;
+
 std::vector<token*> parseLine(std::string line);
 
 void setupDefFuns();

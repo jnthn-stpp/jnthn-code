@@ -37,9 +37,11 @@ int main(){
 		if(print){
 			printTStream(stream);
 		}
-		for(int i = 4; i >= 0; i--){
+		for(int i = 10; i >= 0; i--){
 			jnthn::calc::simplify(i, stream);
 		}
+
+		jnthn::calc::curAns = stream[0]->value;
 
 		std::cout << std::endl << "===> " << stream[0]->value <<std::endl;
 

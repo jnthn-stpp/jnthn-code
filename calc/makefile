@@ -1,4 +1,4 @@
-cflags = -O2 
+cflags = -g 
 
 calc.exe : main.cpp token.h fun.h calc.o
 	g++ main.cpp calc.o -o calc.exe $(cflags)
