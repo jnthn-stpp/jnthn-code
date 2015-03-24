@@ -82,7 +82,7 @@ void jnthn::calc::simplify(int priority, std::vector<jnthn::calc::token *> & sta
 		jnthn::calc::num * args = new num[size]; 
 		for(int j = 0; j < size; j++){
 			token * t = stack[i + stack[i]->args[j]];
-			if(t->tType = NUM){
+			if(t->tType == NUM){
 				args[j] = t->value;
 			} else {
 				std::cout << "Invalid Token Order" << std::endl;
