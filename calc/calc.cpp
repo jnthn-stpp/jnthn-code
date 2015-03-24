@@ -75,7 +75,7 @@ void jnthn::calc::simplify(int priority, std::vector<jnthn::calc::token *> & sta
 			}
 		}
 		num value = stack[i]->function(args);
-		num * largs = stack[i]->args;
+		int * largs = stack[i]->args;
 		delete stack[i];
 		stack[i] = new token(value);
 		for(int j = 0; j < size; j++){
