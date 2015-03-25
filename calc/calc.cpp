@@ -15,7 +15,7 @@ void jnthn::calc::setAns(num ans){
   curAns = ans;
 }
 
-int ansArgs[1] = {0};
+int ansArgs[0] = {};
 
 std::map<std::string, token *> funLookupTable;
 token powtok = token(6, ariArgs, 2, *jpow);	
@@ -23,7 +23,7 @@ token multok = token(4, ariArgs, 2, *jmul);
 token divtok = token(4, ariArgs, 2, *jdiv);	
 token addtok = token(2, ariArgs, 2, *jadd);	
 token subtok = token(2, ariArgs, 2, *jsub);
-token anstok = token(0, ansArgs, 0, *ans);
+token anstok = token(10, ansArgs, 0, *ans);
 
 void jnthn::calc::setupDefFuns(){
 
@@ -80,6 +80,7 @@ void jnthn::calc::simplify(int priority, std::vector<jnthn::calc::token *> & sta
 		} 
 		int size = stack[i]->numArgs;
 		jnthn::calc::num * args = new num[size]; 
+		if(size != 0){
 		for(int j = 0; j < size; j++){
 			token * t = stack[i + stack[i]->args[j]];
 			if(t->tType == NUM){
@@ -87,7 +88,7 @@ void jnthn::calc::simplify(int priority, std::vector<jnthn::calc::token *> & sta
 			} else {
 				std::cout << "Invalid Token Order" << std::endl;
 			}
-		}
+		}}
 		num value = stack[i]->function(args);
 		int * largs = stack[i]->args;
 		delete stack[i];
