@@ -31,3 +31,8 @@ jnthn/bin/*
 *.exe
 *.out
 *.app
+
+#emacs stuff
+
+*~
+#*
