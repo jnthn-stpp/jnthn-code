@@ -32,6 +32,7 @@ int main(){
 			print = !print;
 			continue;
 		}
+		
 
 		std::vector<jnthn::calc::token *> stream = jnthn::calc::parseLine(line);
 		if(print){
