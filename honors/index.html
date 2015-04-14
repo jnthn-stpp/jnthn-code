@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title> Honors Geometry Demos </title>
   <script src="./irr.js"></script>
   <script src="./main.js"></script>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body onload="main();">
-  <h1> Honors Geometry Demos </h1>
+  <h1> Stuff </h1>
   
   <canvas id="irr-canvas" height="300" width="300">
     This element is not supported by your browser!
-  </canavs>
+  </canvas>
 
+  <form id="frm1">
+    <h6>Cycle Speed (s) </h6>
+    <input type="text" id="irr-field"/>
+  </form>
+  <button onClick="irrAction();">Submit</button>
+  
 </body>
-
 </html>
