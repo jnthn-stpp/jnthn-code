@@ -2,25 +2,31 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title> Honors Geometry Demos </title>
+  <title> Honors Humanities Demos </title>
   <script src="./bignumber.js"></script>
   <script src="./irr.js"></script>
   <script src="./main.js"></script>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body onload="main();">
-  <h1>Honors Geometry Demo</h1>
+  <h1>Honors Humanities: Geometry Demo</h1>
   
-  <canvas id="irr-canvas" height="300" width="300">
+  <canvas id="irr-canvas" height="300" width="650">
     This element is not supported by your browser!
   </canvas>
 
   <form id="frm1">
-   Precision: <input type="text" id="irr-field"/>
+   Length: <input type="text" id="dividend"/><br />
+   Measure: <input type="text" id="divisor" /> <br />
+   <select id="numType">
+     <option value="root2">Sqrt(2)</option>
+     <option value="num" selected>Number</option>
+   </select>
   </form>
-  <button onClick="irrAction();">Calculate</button>
+  <button onClick="setup();">Submit</button>
   <button onClick="step();">Step</button>
   <button onClick="run();">Run</button>
+  <button onClick="stop();">Pause</button>
   
 </body>
 </html>
