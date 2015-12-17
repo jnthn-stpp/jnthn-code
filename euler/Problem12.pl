@@ -25,7 +25,7 @@ $nxt = 1;
 $length = 1;
 
 while($length < 500){
-   #print("Tri: $tri, Length: $length \n");
+   print("Tri: $tri, Length: $length \n");
     $nxt += 1;
     $tri += $nxt;
 

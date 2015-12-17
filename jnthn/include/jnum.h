@@ -4,6 +4,7 @@ namespace jnthn{
   namespace num{
 
     class jnum{
+    public:
       int * data;
       int length;
       int radix;

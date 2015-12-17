@@ -37,7 +37,7 @@ jnum jnthn::num::jnum::operator+(const jnum& rhs) const {
 
   int * ndata = new int[nsize];
 
-  while(rlength > i || length > i){
+  while(rlength >= i || length >= i){
 
     int r = 0;
     int l = 0;
