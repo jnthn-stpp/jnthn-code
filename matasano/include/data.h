@@ -1,10 +1,11 @@
 #ifndef DATA_H
 #define DATA_H
+#include <stdint.h>
 
-void rawTob64(char * data, int length, char** out, int *o_length);
-void hexToraw(char * data, int length, char** out, int *o_length);
-void b64Toraw(char * data, int length, char** out, int *o_length);
-void rawTohex(char * data, int length, char** out, int *o_length);
+void rawTob64(uint8_t * data, int length, uint8_t** out, int *o_length);
+void hexToraw(uint8_t * data, int length, uint8_t** out, int *o_length);
+void b64Toraw(uint8_t * data, int length, uint8_t** out, int *o_length);
+void rawTohex(uint8_t * data, int length, uint8_t** out, int *o_length);
 
 
 #endif

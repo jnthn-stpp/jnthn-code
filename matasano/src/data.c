@@ -1,16 +1,17 @@
 #include "data.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 
-char* key64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+uint8_t* key64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-void hexToraw(char* data, int length, char** out, int* nsize){
+void hexToraw(uint8_t* data, int length, uint8_t** out, int* nsize){
   *nsize = length / 2;
-  *out = (char *)malloc(*nsize * sizeof(char));
+  *out = (uint8_t *)malloc(*nsize * sizeof(uint8_t));
   for(int i = 0; i < *nsize; i++){
-    int u16 = data[2*i];
-    int u1 = data[2*i + 1];
+    uint8_t u16 = data[2*i];
+    uint8_t u1 = data[2*i + 1];
     if(u16 >= 'A' && u16 <= 'F'){
       u16 -= 'A';
       u16 += 10;
@@ -35,14 +36,14 @@ void hexToraw(char* data, int length, char** out, int* nsize){
   }
 }
 
-void rawTohex(char* data, int length, char** out, int * nsize){
+void rawTohex(uint8_t* data, int length, uint8_t** out, int * nsize){
 
   *nsize = length * 2;
-  *out = malloc(sizeof(char) * *nsize);
+  *out = malloc(sizeof(uint8_t) * *nsize);
   
   for(int i = 0; i < length; i++){
-    int u1 = data[i] % 0x10;
-    int u16 = data[i] / 0x10;
+    uint8_t u1 = data[i] % 0x10;
+    uint8_t u16 = data[i] / 0x10;
     
     if(u1 >= 0x0a && u1 <= 0x0f){
       u1 += 'W'; //dont ask
@@ -63,9 +64,9 @@ void rawTohex(char* data, int length, char** out, int * nsize){
   }
 }
 
-void rawTob64(char* data, int length, char** out, int * nsize){
+void rawTob64(uint8_t* data, int length, uint8_t** out, int * nsize){
   *nsize = (length / 3) * 4;
-  *out = malloc(sizeof(char) * (*nsize + (length % 3)));
+  *out = malloc(sizeof(uint8_t) * (*nsize + (length % 3)));
 
   int i = 0;
   int extra = 0;
