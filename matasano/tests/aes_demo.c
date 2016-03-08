@@ -1,5 +1,6 @@
 #include "aes.h"
 #include "data.h"
+#include "pad.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -20,24 +21,18 @@ int main(int argc, char ** argv){
   fseek(file, 0L, SEEK_END);
   long bufsize = ftell(file);
   fseek(file, 0L, SEEK_SET);
-
   in = malloc(sizeof(char) * bufsize + 1);
-  int pad = (!(bufsize % 16)) ? 0 : 16 - (bufsize % 16);
-  out = malloc(sizeof(char) * bufsize + pad);
-  long length = fread(in, sizeof(char), bufsize, file);
-  in[length + 1] = '\0';
+  out = malloc(sizeof(char) * bufsize);
+  fread(in, bufsize * sizeof(uint8_t), sizeof(uint8_t), file);
+
+  
+  in[bufsize] = '\0';
+  pad_narb(&in, bufsize, 16, ' ');
+
 
   long encoded = 0;
-
-  while(length > encoded){
+  while(encoded < bufsize){
     uint8_t * tout;
-    if(length - encoded > 16){
-      tout = out + encoded;
-    } else {
-      tout = malloc(16 * sizeof(uint8_t));
-      memcpy(tout, in + encoded, length - encoded);
-    }
-
     switch(mode){
     case 'd':
       switch(ksize){
@@ -68,10 +63,10 @@ int main(int argc, char ** argv){
     memcpy(out + encoded, tout, 16);
     encoded += 16;
   }
-  fwrite(out, sizeof(char), bufsize + pad, ofile);
+  fwrite(out, sizeof(char), bufsize, ofile);
 
   fclose(file);
   fclose(ofile);
-  free(out);
-  free(in);
+  //free(out);
+  //free(in);
 }

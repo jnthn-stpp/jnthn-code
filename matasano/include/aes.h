@@ -2,6 +2,11 @@
 #define AES_H
 #include <stdint.h>
 
+/*
+aes-128 input-16b output-16b key-16b
+aes-192 input-16b output-16b key-24b
+aes-256 input-16b output-16b key-32b
+ */
 void shiftRows(uint8_t *** state);
 void mixColumns(uint8_t *** state);
 void subBytes(uint8_t *** state);

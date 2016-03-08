@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void xorEncode(char * pt, char * key, int size, char** out, int* nsize){
-  (*nsize) = size;
+void xorEncode(char * pt, char * key, int size, char** out){
   (*out) = malloc(size * sizeof(char));
 
   for(int i = 0; i < size; i++){
@@ -13,13 +12,13 @@ void xorEncode(char * pt, char * key, int size, char** out, int* nsize){
 }
 
 void xorLangDecode(char* pt, char** key, int keyNum, int size, char** out, char** okey, int* score){
-  xorEncode(pt, key[0], size, out, &size);
+  xorEncode(pt, key[0], size, out);
   *score = scoreText(*out, size);
   *okey = key[0];
 
   for(int i = 1; i < keyNum - 1; i++){
     char* cout;
-    xorEncode(pt, key[i], size, &cout, &size);
+    xorEncode(pt, key[i], size, &cout);
     int cscore = scoreText(cout, size);
 
     if(cscore < *score){
