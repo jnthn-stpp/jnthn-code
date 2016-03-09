@@ -1,6 +1,4 @@
 #include "aes.h"
-#include "matrix.h"
-#include "gf256.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

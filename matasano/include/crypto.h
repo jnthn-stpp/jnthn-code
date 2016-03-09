@@ -7,7 +7,5 @@
 #include "lang.h"
 #include "aes.h"
 #include "pad.h"
-#include "gf256.h"
-#include "aes_ctr.h"
 
 #endif
