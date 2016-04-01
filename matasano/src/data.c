@@ -51,7 +51,7 @@ void rawTohex(uint8_t* data, int length, uint8_t** out, int * nsize){
       u1 += '0';
     }
 
-    if(u16 >= 0x0a && u16 <= 0x0f){
+    if((u16 >= 0x0a) && (u16 <= 0x0f)){
       u16 += 'W'; //dont ask
     } else {
       u16 += '0';

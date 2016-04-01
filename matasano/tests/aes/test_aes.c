@@ -22,7 +22,7 @@ void setTextKey(uint8_t * plain, uint8_t * tkey, int klen){
 
 void assumeOut(uint8_t * assume){
   rawTohex(out, 16, &out, &length);
-  TEST_ASSERT_EQUAL_STRING( assume, out);
+  TEST_ASSERT_EQUAL_STRING(assume, out);
 }
 
 

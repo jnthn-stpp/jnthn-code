@@ -1,15 +1,24 @@
 cflags = -std=c99 -g
 libflags = -I ./include -L ./lib
 aesfiles = bin/aes/aes.o bin/aes/aes_ctr.o bin/aes/gf256.o bin/aes/matrix.o
+sha3files = bin/sha3/keccak_f.o bin/sha3/sha3.o bin/sha3/sha3_pad.o bin/sha3/sha3_state.o bin/sha3/sha3_step.o bin/sha3/sponge.o
 objfiles = bin/data.o bin/key.o bin/lang.o bin/pad.o bin/xor.o
 
 #non-files
-default:  lib/libaes.a lib/libcrypto.a
+default:  lib/libaes.a lib/libsha3.a lib/libcrypto.a
 all: default
-lib/libcrypto.a : $(aesfiles) $(objfiles)
+#libraries
+lib/libcrypto.a : $(aesfiles) $(objfiles) $(sha3files)
 	@echo -e "____________________________\nCrypto Library ...\c"
 	@ar rcs lib/libcrypto.a $(objfiles) $(aesfiles)
 	@echo -e "\tdone\n"
+lib/libsha3.a : $(sha3files) bin/data.o
+	@echo -e "____________________________\nSHA3 Library ...\c"
+	@ar rcs lib/libsha3.a $(sha3files) bin/data.o
+	@echo -e "\tdone\n"
+	@echo "SHA3 Unit Tests:"
+	@cd tests; make -s sha3/sha3test; ./sha3/sha3test
+	@echo ""; echo ""
 lib/libaes.a : $(aesfiles) bin/data.o
 	@echo -e "____________________________\nAES Library ...\c"
 	@ar rcs lib/libaes.a $(aesfiles) bin/data.o
@@ -55,9 +64,33 @@ bin/aes/aes_ctr.o : include/aes/aes_ctr.h src/aes/aes_ctr.c
 	@echo -e "Compiling aes_ctr ...\c"
 	@gcc -c src/aes/aes_ctr.c -o bin/aes/aes_ctr.o $(cflags) $(libflags)
 	@echo -e "\tdone"
+bin/sha3/sha3_state.o : include/sha3/sha3_state.h src/sha3/sha3_state.c
+	@echo -e "Compiling sha3_state...\c"
+	@gcc -c src/sha3/sha3_state.c -o bin/sha3/sha3_state.o $(cflags) $(libflags)
+	@echo -e "\tdone"
+bin/sha3/sha3_step.o : include/sha3/sha3_step.h src/sha3/sha3_step.c
+	@echo -e "Compiling sha3_step ...\c"
+	@gcc -c src/sha3/sha3_step.c -o bin/sha3/sha3_step.o $(cflags) $(libflags)
+	@echo -e "\tdone"
+bin/sha3/keccak_f.o : include/sha3/keccak_f.h src/sha3/keccak_f.c
+	@echo -e "Compiling keccak_f ...\c"
+	@gcc -c src/sha3/keccak_f.c -o bin/sha3/keccak_f.o $(cflags) $(libflags)
+	@echo -e "\tdone"
+bin/sha3/sha3_pad.o : include/sha3/sha3_pad.h src/sha3/sha3_pad.c
+	@echo -e "Compiling sha3_pad ...\c"
+	@gcc -c src/sha3/sha3_pad.c -o bin/sha3/sha3_pad.o $(cflags) $(libflags)
+	@echo -e "\tdone"
+bin/sha3/sponge.o : include/sha3/sponge.h src/sha3/sponge.c
+	@echo -e "Compiling sponge ...\c"
+	@gcc -c src/sha3/sponge.c -o bin/sha3/sponge.o $(cflags) $(libflags)
+	@echo -e "\tdone"
+bin/sha3/sha3.o : include/sha3.h src/sha3/sha3.c
+	@echo -e "Compiling sha3 ...\c"
+	@gcc -c src/sha3/sha3.c -o bin/sha3/sha3.o $(cflags) $(libflags)
+	@echo -e "\tdone"
 
 #clean commands
-clean: clean-objects clean-library clean-tests clean-aes
+clean: clean-objects clean-library clean-tests clean-aes clean-sha3
 
 clean-objects:
 	@echo -e "Cleaning Crypto Objects ...\c"
@@ -67,11 +100,16 @@ clean-aes:
 	@echo -e "Cleaning AES Objects ...\c"
 	-@rm $(aesfiles) 2>/dev/null || true
 	@echo -e "\tdone"
+clean-sha3:
+	@echo -e "Cleaning SHA3 Objects ...\c"
+	-@rm $(sha3files) 2>/dev/null || true
+	@echo -e "\tdone"
 
 clean-library:
 	@echo -e "Cleaning Libraries ...\c"
 	-@rm lib/libcrypto.a 2>/dev/null || true
 	-@rm lib/libaes.a 2>/dev/null || true
+	-@rm lib/libsha3.a 2>/dev/null || true
 	@echo -e "\t\tdone"
 clean-tests:
 	@echo -e "Cleaning Tests ...\c"

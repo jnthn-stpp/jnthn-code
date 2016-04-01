@@ -2,7 +2,8 @@ cflags = -std=c99 -g
 libflags = -I ../include -L ../lib -I ./unity -L ./unity
 binary = encode64 fixed sbxor detectXor aesTrans aes_demo
 aesobj = aes/test_aes.o aes/test_aes_ctr.o aes/test_gf256.o
-all: aes/aestest
+sha3obj = sha3/test_sha3_state.o sha3/test_sha3_step.o sha3/test_sha3_main.o
+all: aes/aestest sha3/sha3test
 
 aes/test_aes.o : aes/test_aes.c ../src/aes/aes.c ../include/aes.h
 	@gcc -c -o aes/test_aes.o aes/test_aes.c $(cflags) $(libflags)
@@ -12,6 +13,15 @@ aes/test_aes_ctr.o : aes/test_aes_ctr.c ../src/aes/aes_ctr.c ../include/aes/aes_
 	@gcc -c -o aes/test_aes_ctr.o aes/test_aes_ctr.c $(cflags) $(libflags)
 aes/aestest : aes/test.c $(aesobj)
 	gcc aes/test.c $(aesobj) -laes -lunity -o aes/aestest $(cflags) $(libflags)
+
+sha3/test_sha3_state.o : sha3/test_sha3_state.c ../src/sha3/sha3_state.c ../include/sha3/sha3_state.h
+	@gcc -c -o sha3/test_sha3_state.o sha3/test_sha3_state.c $(cflags) $(libflags)
+sha3/test_sha3_step.o : sha3/test_sha3_step.c ../src/sha3/sha3_step.c ../include/sha3/sha3_step.h
+	@gcc -c -o sha3/test_sha3_step.o sha3/test_sha3_step.c $(cflags) $(libflags)
+sha3/test_sha3_main.o : sha3/test_sha3_main.c ../src/sha3/sha3.c ../include/sha3.h
+	@gcc -c -o sha3/test_sha3_main.o sha3/test_sha3_main.c $(cflags) $(libflags)
+sha3/sha3test : sha3/test_sha3.c $(sha3obj)
+	gcc sha3/test_sha3.c $(sha3obj) -lsha3 -lunity -o sha3/sha3test $(cflags) $(libflags)
 
 #test files
 encode64.o : encode64.c
@@ -43,5 +53,6 @@ clean: clean-test
 
 clean-test:
 	-@rm $(aesobj) aes/aestest 2>/dev/null || true
+	-@rm $(sha3obj) sha3/sha3test 2>/dev/null || true
 clean-binary :
 	-rm $(binary)
