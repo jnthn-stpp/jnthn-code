@@ -1,5 +1,6 @@
-cflags = -std=c99 -g
+cflags = -std=c99 -fpic
 libflags = -I ./include -L ./lib
+phpflags = -I/usr/include/php5 -I/usr/include/php5/main -I/usr/include/php5/TSRM -I/usr/include/php5/Zend -I/usr/include/php5/ext -I/usr/include/php5/ext/date/lib
 aesfiles = bin/aes/aes.o bin/aes/aes_ctr.o bin/aes/gf256.o bin/aes/matrix.o
 sha3files = bin/sha3/keccak_f.o bin/sha3/sha3.o bin/sha3/sha3_pad.o bin/sha3/sha3_state.o bin/sha3/sha3_step.o bin/sha3/sponge.o
 objfiles = bin/data.o bin/key.o bin/lang.o bin/pad.o bin/xor.o
@@ -7,10 +8,12 @@ objfiles = bin/data.o bin/key.o bin/lang.o bin/pad.o bin/xor.o
 #non-files
 default:  lib/libaes.a lib/libsha3.a lib/libcrypto.a
 all: default
+
+swig: honors/demo.so
 #libraries
 lib/libcrypto.a : $(aesfiles) $(objfiles) $(sha3files)
 	@echo -e "____________________________\nCrypto Library ...\c"
-	@ar rcs lib/libcrypto.a $(objfiles) $(aesfiles)
+	@ar rcs lib/libcrypto.a $(objfiles) $(aesfiles) $(sha3files)
 	@echo -e "\tdone\n"
 lib/libsha3.a : $(sha3files) bin/data.o
 	@echo -e "____________________________\nSHA3 Library ...\c"
@@ -27,6 +30,14 @@ lib/libaes.a : $(aesfiles) bin/data.o
 	@cd tests; make -s aes/aestest; ./aes/aestest
 	@echo ""; echo ""
 
+#demo PHP module
+honors/demo.so : bin/demo.o include/demo.h honors/demo_wrap.o
+	gcc -shared bin/demo.o honors/demo_wrap.o -o honors/demo.so -lcrypto $(libflags)
+honors/demo_wrap.o : honors/demo.i bin/demo.o
+	swig -php honors/demo.i
+	gcc -fpic -c honors/demo_wrap.c -o honors/demo_wrap.o $(phpflags)
+bin/demo.o : src/demo.c include/demo.h
+	gcc -c src/demo.c -o bin/demo.o -lcrypto $(cflags) $(libflags)
 #object files
 bin/data.o : include/data.h src/data.c
 	@echo -e "Compiling data ...\c"
@@ -90,7 +101,7 @@ bin/sha3/sha3.o : include/sha3.h src/sha3/sha3.c
 	@echo -e "\tdone"
 
 #clean commands
-clean: clean-objects clean-library clean-tests clean-aes clean-sha3
+clean: clean-objects clean-library clean-tests clean-aes clean-sha3 clean-swig
 
 clean-objects:
 	@echo -e "Cleaning Crypto Objects ...\c"
@@ -103,6 +114,10 @@ clean-aes:
 clean-sha3:
 	@echo -e "Cleaning SHA3 Objects ...\c"
 	-@rm $(sha3files) 2>/dev/null || true
+	@echo -e "\tdone"
+clean-swig:
+	@echo -e "Cleaning Swig Objects ...\c"
+	-@rm honors/demo_wrap.o bin/demo.o honors/demo.so honors/demo.php 2>/dev/null || true
 	@echo -e "\tdone"
 
 clean-library:

@@ -6,6 +6,7 @@
 #include "key.h"
 #include "lang.h"
 #include "aes.h"
+#include "sha3.h"
 #include "pad.h"
 
 #endif

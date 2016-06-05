@@ -39,7 +39,7 @@ void hexToraw(uint8_t* data, int length, uint8_t** out, int* nsize){
 void rawTohex(uint8_t* data, int length, uint8_t** out, int * nsize){
 
   *nsize = length * 2;
-  *out = malloc(sizeof(uint8_t) * *nsize);
+  *out = malloc(sizeof(uint8_t) * *nsize + 1);
   
   for(int i = 0; i < length; i++){
     uint8_t u1 = data[i] % 0x10;
@@ -62,6 +62,7 @@ void rawTohex(uint8_t* data, int length, uint8_t** out, int * nsize){
 
     //printf("%c, %c ", u16, u1);
   }
+  (*out)[*nsize] = 0;
 }
 
 void rawTob64(uint8_t* data, int length, uint8_t** out, int * nsize){
@@ -105,3 +106,4 @@ void rawTob64(uint8_t* data, int length, uint8_t** out, int * nsize){
     (*out)[*nsize + (length % 3) - i] = '=';
   }
 }
+

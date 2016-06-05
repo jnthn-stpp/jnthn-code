@@ -14,6 +14,7 @@ TEST(sha3_state, string_state){
   uint64_t ** state;
   string_to_state(txt, &state);
   state_to_string(state, &out);
+  out[400] = 0;
 
   TEST_ASSERT_EQUAL_STRING(txt, out);
 }

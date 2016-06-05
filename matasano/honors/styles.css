@@ -1,0 +1,67 @@
+body {
+    background-color: #efefef;
+}
+
+h1{
+    font-size: 4em;
+    font-family: "Courier New", Courier, monospace;
+    color: #e37222;
+}
+h2{
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    color: #66b9bf;
+    word-wrap : break-word;
+}
+
+label{
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    color: #eeaa7b;
+}
+input[type=text]{
+    background-color: #66b9bf;
+    color: #efefef;
+    width: 16em;
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+}
+textarea{
+    background-color: #66b9bf;
+    color: #efefef;
+    width: 16em;
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+}
+selector{
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    color: #eeaa7b;
+}
+option{
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    color: #eeaa7b;
+}
+input[type=text].hex {
+    font-size: 1em;
+    width: 32em;
+    height: 2em;
+}
+#out {
+    font-size: 2em;
+    width: 16em;
+    height: 1.5em;
+}
+input[type=submit]{
+    background-color: #07889b;
+    font-family: "Courier New", Courier, monospace;
+    color: #e37222;
+    font-size: 1em;
+    border: 0, none;
+    border-radius: 0px;
+}
+a{
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1em;
+}
