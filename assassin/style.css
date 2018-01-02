@@ -4,6 +4,10 @@ body {
 h1 {
 	font-family: "Courier New", Courier, monospace;
 }
+.cardlink {
+	text-decoration: none;
+	color: black;
+}
 .card {
 	font-family: "Courier New", Courier, monospace;
 	background-color: red;
@@ -11,4 +15,8 @@ h1 {
 	padding-left: 1em;
 	padding-right: 1em;
 	border: 0.5em solid black;
+}
+
+#death {
+	background-color: yellow;
 }

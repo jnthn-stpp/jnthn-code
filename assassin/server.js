@@ -17,6 +17,11 @@ const requestHandler= (request, response) => {
 	var contentType = ""
 	var extname = path.extname(pathname)
 
+	var logging = false
+	var codephrase = ""
+	var agent = ""
+	var target = ""
+
 	switch(extname){
 		case '.js':
 			contentType = 'text/javascript'
@@ -39,26 +44,39 @@ const requestHandler= (request, response) => {
 			if(pathname == '/login.html'){
 				filePath = "./login.html"
 			}
-
 			break;
 	}
 	
 	switch(pathname){
 		case '/login':
-				var codephrase = rurl.query.substr(5)	
+				codephrase = rurl.query.substr(5).replace('+', ' ')	
 				console.log(codephrase)
+				logging = true
+				target = codephrase
+				agent=codephrase
+				contentType = 'text/html'
+				filePath = "./user.html"
 			break;
 	}
 	if(filePath == ""){
 		filePath = "./index.html"
 		contentType = "text/html"
 	}
-	fs.readFile(filePath, 'utf8', function (err,data) {
-		if(err) {
-			return console.log(err)
+	var fileString = ""
+	fs.readFile(filePath, 'utf8', function read(err, data){
+		if(err){
+			throw err;
+		}
+		fileString = data
+		if(logging){
+			console.log("logging!")
+			console.log(agent)
+			fileString = fileString.replace("{operation}", codephrase);
+			fileString = fileString.replace("{agent}", agent);
+			fileString = fileString.replace("{target}", target);
 		}
 		response.writeHead(200, { 'Content-Type': contentType})
-		response.end(data, 'utf-8')
+		response.end(fileString, 'utf-8')
 	});
 }
 
