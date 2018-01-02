@@ -1,0 +1,14 @@
+body {
+	
+}
+h1 {
+	font-family: "Courier New", Courier, monospace;
+}
+.card {
+	font-family: "Courier New", Courier, monospace;
+	background-color: red;
+	margin-top: 2em;
+	padding-left: 1em;
+	padding-right: 1em;
+	border: 0.5em solid black;
+}
