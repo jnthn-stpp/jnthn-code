@@ -1,6 +1,6 @@
 cflags = -std=c99 -fpic
 libflags = -I ./include -L ./lib
-phpflags = -I/usr/include/php5 -I/usr/include/php5/main -I/usr/include/php5/TSRM -I/usr/include/php5/Zend -I/usr/include/php5/ext -I/usr/include/php5/ext/date/lib
+phpflags = -I/usr/include/php/20151012 -I/usr/include/php/20151012/main -I/usr/include/php/20151012/TSRM -I/usr/include/php/20151012/Zend -I/usr/include/php/20151012/ext -I/usr/include/php/20151012/ext/date/lib
 aesfiles = bin/aes/aes.o bin/aes/aes_ctr.o bin/aes/gf256.o bin/aes/matrix.o
 sha3files = bin/sha3/keccak_f.o bin/sha3/sha3.o bin/sha3/sha3_pad.o bin/sha3/sha3_state.o bin/sha3/sha3_step.o bin/sha3/sponge.o
 objfiles = bin/data.o bin/key.o bin/lang.o bin/pad.o bin/xor.o
