@@ -4,18 +4,32 @@
 	<meta charset="utf-8">
 	<title>3E Assassin</title>
 	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Special+Elite">
 </head>
 
 <body>
-	<h1>Mission Dossier: Operation {operation}</h1>
+	<a class="cardlink" href=index.html>
+	<header class="cardheader">
+	EEE Spy Agency
+	</header>
+	</a>
+
+	<h1>Mission Dossier: Operation {0}</h1>
 	<div class="card">
 		<h3>Agents Involved:</h3>
-		<p>{agent}</p>
+		<p>{1}</p>
 	</div>
 	<div class="card">
 		<h3>Target: </h3>
-		<p>{target}</p>
+		<p>{2}</p>
+		<del>{5}</del>
 	</div>
+	<div class="card">
+		<h3>Operation Statistics</h3>
+		<p>Score: {3}</p>
+		<p>Influence: {4}%</p>
+	</div>
+
 	<div class="card">
 		<h3>Instructions: </h3>
 		<p>Eliminate target as quickly as possible. Avoid detection by target or law enforcement. Exercise extreme caution as we are tracking suspected enemy movement in your area.</p>
@@ -24,7 +38,7 @@
 		<h3>ONLY PRESS IN EMERGENCY!</h3>
 		<p>Press this button if you have been compromised. Then, burn your phone and flee the country. If you are caught, we will disavow any knowledge of your existance or actions. Good luck and godspeed.</p>
 	</div>
-	<a href="/die" class="cardlink">
+	<a href="/die?code={0}" class="cardlink">
 	<div class="card" id="death">
 		<h3>Kill Switch</h3>
 	</div>

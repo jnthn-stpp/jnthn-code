@@ -1,0 +1,15 @@
+server is listening on 8000
+SELECT Name, Target, Influence
+		FROM t2
+		WHERE Operation="Yellow Snow";
+UPDATE t2 SET
+			Target="$(target}",
+			Score=Score+1,
+			Influence=Influence+1,
+			KillList=CONCAT(KillList,"Jonathan Stepp<br>")
+			WHERE Name="Bob Sisk";
+
+			UPDATE t2 SET
+			Alive=0,
+			Influence=0
+			WHERE Name="Jonathan Stepp";

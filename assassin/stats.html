@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>3E Assassin</title>
+	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Special+Elite">
+	<script>
+	function callback() {
+		var response = JSON.parse(this.responseText);
+		var list = document.getElementById('list')
+		var counter = document.getElementById('counter')
+		var liststr = "<br>";
+		if(response[0].length == 0){
+			liststr+="No one has been killed yet";
+		}else{
+			for(var i=response[0].length-1;i>=0; i--){
+				var temp = response[0][i]["Description"] + "<br>"
+				liststr+= temp
+			}
+		}
+		counter.innerHTML = "Active Agents: " + response[1][0]['count(*)'];
+		list.innerHTML = liststr;
+	}
+
+	var req = new XMLHttpRequest();
+
+	function loadStuff(){
+		req.addEventListener("load", callback);
+		req.open("GET", "/killlist");
+		req.send();
+	}
+	
+	window.setInterval(loadStuff, 10000);
+	</script>
+</head>
+
+<body onload="loadStuff()">
+	<a class="cardlink" href=index.html>
+	<header class="cardheader">
+	EEE Spy Agency
+	</header>
+	</a>
+	<h3 id="counter">Active Agents: </h3>
+	<div class="card" id="list">
+
+	</div>
+</body>
+</html>

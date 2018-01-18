@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>3E Assassin</title>
+	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Special+Elite">
+</head>
+
+<body>
+	<a class="cardlink" href=index.html>
+	<header class="cardheader">
+	EEE Spy Agency
+	</header>
+	</a>
+
+	<h1>Spy Master Control Page</h1>
+	
+	<div class="card">
+	<h3>Game Statistics</h3>
+	<p>
+	Current Number of Registered Players: {0}<br>
+	Current Number of Killed/Inactive Players: {1}<br>
+	</p>
+	</div>
+
+	<a href="/start0546" class="cardlink">	
+	<div class="card">
+	<br>
+	<h3>Launch Game</h3><br>
+	</div>
+	</a>
+
+	<div class="card">
+	<form action="/assign0546" method="get">
+	<p>Assign Targets</p><br><br>
+	<p>
+	Offset	
+	</p>
+	<input type="text" name=off><br><br><br>
+	<input type="submit" value="Assign Targets"><br><br>
+	</form>
+	</div>
+
+	<a href="/end0546" class="cardlink">	
+	<div class="card" id="death">
+	<br>
+	<h3>End Game and Clear Data</h3><br>
+	</div>
+	</a>
+
+	</body>
+</html>
