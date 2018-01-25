@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Graphics Test</title>
+	<link rel="stylesheet" href="./style.css">
+	<script type="text/javascript" src="./glmath.js"></script>_
+	<script id="v-shader" type="glsl-shader">
+	attribute vec4 aVertexPosition;
+
+	uniform mat4 uModelViewMatrix;
+	uniform mat4 uProjectionMatrix;
+
+	void main(){
+		gl_Position = uProjectionMatrix *
+		uModelViewMatrix * aVertexPosition;
+	}
+	</script>
+	<script id="f-shader" type="glsl-shader">
+	void main(){
+		gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+	}
+	</script>
+	<script>
+	var t = 0;
+	var initGL = function(){
+		var canvas = document.getElementById("gc");
+		canvas.width = canvas.clientWidth;
+		canvas.height = canvas.clientHeight;
+
+		var gl = canvas.getContext('webgl');
+
+		//change this before production!
+		//use a dedicated server to serve separate files, idiot
+		var vshader = document.getElementById("v-shader").text;
+		var fshader = document.getElementById("f-shader").text;
+
+		const sp = initShaderProgram(gl, vshader, fshader);
+
+		const pi = {
+			program: sp,
+			a : {
+				vp : gl.getAttribLocation(sp,
+				'aVertexPosition')
+			},
+			u : {
+				pm : gl.getUniformLocation(sp,
+				'uProjectionMatrix'),
+				mvm : gl.getUniformLocation(sp,
+				'uModelViewMatrix'),
+			},
+		};
+
+		var buffers = initBuffers(gl);
+		requestAnimationFrame(function(){
+			drawScene(gl, pi, buffers)
+		})
+	}
+
+	var initBuffers = function(gl){
+		const pb = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, pb);
+		const pos = [
+		 1.0,  1.0,
+		-1.0,  1.0,
+		 1.0, -1.0,
+		-1.0, -1.0,
+		];
+
+		gl.bufferData(gl.ARRAY_BUFFER, 
+		new Float32Array(pos),
+		gl.STATIC_DRAW);
+
+		return {
+			position: pb,
+		}
+	};
+
+	var drawScene = function(gl, pi, buffers){
+
+		gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
+
+		gl.clearColor(0.0,0.0,0.0,1.0);
+		gl.clearDepth(1.0);
+		gl.enable(gl.DEPTH_TEST);
+		gl.depthFunc(gl.LEQUAL);
+
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+		var pm = m4.scale(gl.canvas.height/gl.canvas.width,1.0,1.0);
+
+		t += 0.01;
+		
+		var mvm = m4.scale(0.5, 0.5, 0.5);
+		mvm = m4.mult(m4.rotz(2*Math.PI*Math.sin(t)),mvm);
+
+		{
+		const numComponents = 2;
+		const type = gl.FLOAT;
+		const normalize = false;
+		const stride = 0;
+		const offset = 0;
+
+		gl.enableVertexAttribArray(pi.a.vp);
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+		gl.vertexAttribPointer(
+			pi.a.vp,
+			numComponents,
+			type,
+			normalize,
+			stride,
+			offset
+		);
+		}
+
+		gl.useProgram(pi.program);
+
+		gl.uniformMatrix4fv(
+			pi.u.pm,
+			false,
+			pm
+		);
+		gl.uniformMatrix4fv(
+			pi.u.mvm,
+			false,
+			mvm
+		);
+
+		{
+		const offset = 0;
+		const vertexCount = 4;
+		gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+		}
+		requestAnimationFrame(function(){
+			drawScene(gl, pi, buffers)
+		})
+	}
+
+	</script>
+</head>
+<body onLoad="initGL()">
+
+<canvas class="gamecanvas" id="gc" width="800px" height="600px"></canvas>
+	
+</body>
+</html>
