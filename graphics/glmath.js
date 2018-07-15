@@ -56,13 +56,36 @@ const m4 = {
 		];
 	},
 	rotz : function(theta){
+		var c = Math.cos(theta)
+		var s = Math.sin(theta)
 		return [
-		Math.cos(theta), Math.sin(theta), 0, 0,
-		-Math.sin(theta), Math.cos(theta), 0, 0,
+		c, s, 0, 0,
+		-s, c, 0, 0,
 		0, 0, 1, 0,
 		0, 0, 0, 1
 		];
 	},
+	rotx : function(theta){
+		var c = Math.cos(theta)
+		var s = Math.sin(theta)
+		return [
+		1, 0, 0, 0,
+		0, c, s, 0,
+		0, -s, c, 0,
+		0, 0, 0, 1
+		];
+	},
+	roty : function(theta){
+		var c = Math.cos(theta)
+		var s = Math.sin(theta)
+		return [
+		c, 0, -s, 0,
+		0, 1, 0, 0,
+		s, 0, c, 0,
+		0, 0, 0, 1
+		];
+	},
+
 	mult : function(a, b){
 		var r = new Float32Array(16);	
 		for(var i=0; i<16; i++){

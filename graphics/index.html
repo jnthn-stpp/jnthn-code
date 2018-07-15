@@ -11,14 +11,20 @@
 	uniform mat4 uModelViewMatrix;
 	uniform mat4 uProjectionMatrix;
 
+	varying vec3 v_color;
 	void main(){
+		v_color = normalize(aVertexPosition.xyz);
 		gl_Position = uProjectionMatrix *
 		uModelViewMatrix * aVertexPosition;
 	}
 	</script>
 	<script id="f-shader" type="glsl-shader">
+	precision mediump float;
+	uniform vec2 resolution;
+	varying vec3 v_color;
 	void main(){
-		gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		vec2 position = (gl_FragCoord.xy / resolution.xy);
+		gl_FragColor = vec4(v_color, 1.0);
 	}
 	</script>
 	<script>
@@ -61,10 +67,52 @@
 		const pb = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, pb);
 		const pos = [
-		 1.0,  1.0,
-		-1.0,  1.0,
-		 1.0, -1.0,
-		-1.0, -1.0,
+			//back
+			 1.0, 1.0, 1.0,
+			 1.0,-1.0, 1.0,
+			-1.0,-1.0, 1.0,
+			 1.0, 1.0, 1.0,
+			-1.0,-1.0, 1.0,
+			-1.0, 1.0, 1.0,
+			//front
+			 1.0, 1.0,-1.0,
+			-1.0,-1.0,-1.0,
+			 1.0,-1.0,-1.0,
+			 1.0, 1.0,-1.0,
+			-1.0, 1.0,-1.0,
+			-1.0,-1.0,-1.0,
+			//right
+			 1.0, 1.0,-1.0,
+			 1.0,-1.0,-1.0,
+			 1.0,-1.0, 1.0,
+			 1.0, 1.0,-1.0,
+			 1.0,-1.0, 1.0,
+			 1.0, 1.0, 1.0,
+			//left
+			-1.0, 1.0,-1.0,
+			-1.0,-1.0, 1.0,
+			-1.0,-1.0,-1.0,
+			-1.0, 1.0,-1.0,
+			-1.0, 1.0, 1.0,
+			-1.0,-1.0, 1.0,
+			//top
+			 1.0, 1.0,-1.0,
+			 1.0, 1.0, 1.0,
+			-1.0, 1.0, 1.0,
+			 1.0, 1.0,-1.0,
+			-1.0, 1.0, 1.0,
+			-1.0, 1.0,-1.0,
+			//bot
+			 1.0,-1.0,-1.0,
+			-1.0,-1.0, 1.0,
+			 1.0,-1.0, 1.0,
+			 1.0,-1.0,-1.0,
+			-1.0,-1.0,-1.0,
+			-1.0,-1.0, 1.0,
+
+
+
+
 		];
 
 		gl.bufferData(gl.ARRAY_BUFFER, 
@@ -83,19 +131,19 @@
 		gl.clearColor(0.0,0.0,0.0,1.0);
 		gl.clearDepth(1.0);
 		gl.enable(gl.DEPTH_TEST);
+		gl.enable(gl.CULL_FACE);
 		gl.depthFunc(gl.LEQUAL);
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		var pm = m4.scale(gl.canvas.height/gl.canvas.width,1.0,1.0);
-
-		t += 0.01;
 		
+		t += 0.005
 		var mvm = m4.scale(0.5, 0.5, 0.5);
-		mvm = m4.mult(m4.rotz(2*Math.PI*Math.sin(t)),mvm);
+		mvm = m4.mult(m4.rotx(0.5*Math.PI*Math.sin(t)), m4.mult(m4.roty(2*Math.PI*Math.sin(t)),mvm));
 
 		{
-		const numComponents = 2;
+		const numComponents = 3;
 		const type = gl.FLOAT;
 		const normalize = false;
 		const stride = 0;
@@ -128,8 +176,8 @@
 
 		{
 		const offset = 0;
-		const vertexCount = 4;
-		gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+		const vertexCount = 36;
+		gl.drawArrays(gl.TRIANGLES, offset, vertexCount);
 		}
 		requestAnimationFrame(function(){
 			drawScene(gl, pi, buffers)
